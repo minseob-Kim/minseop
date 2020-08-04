@@ -1,0 +1,50 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+	static int[][] adj, answer;
+	
+	public static void main(String[] args) throws Exception {
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		int n = Integer.parseInt(in.readLine());
+		adj = new int[n][n];
+		answer = new int[n][n];
+		
+		StringTokenizer st;
+		for (int i = 0; i < n; i++) {
+			st = new StringTokenizer(in.readLine());
+			for (int j = 0; j < n; j++) {
+				adj[i][j] = Integer.parseInt(st.nextToken());
+			}
+		}
+		
+		//모든점에 대해 시작점으로
+		for (int i = 0; i < n; i++) {
+			dfs(i, n, i);
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				sb.append(answer[i][j] + " ");
+			}
+			sb.append("\n");
+		}
+		
+		System.out.println(sb);
+	}
+
+	private static void dfs(int cur, int n, int start) { //현재 위치, 점 갯수, 시작한 위치
+		for (int i = 0; i < n; i++) {
+			//갈수 있으면
+			if(adj[cur][i] > 0) {
+				//간적이 없다면
+				if(answer[start][i] == 0) {
+					answer[start][i] = 1; //갔다고 표시
+					dfs(i, n, start); //go
+				}
+			}
+		}
+	}
+}
